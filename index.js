@@ -104,6 +104,36 @@ $('.reader-page').css("margin", margin4ReaderPage);
 //恢复空白背景色
 $('html,body').css("background", "#fff");
 
+let page=1;
+
+function exportCanvasAsPNG(id, fileName) {
+
+    var canvasElement = document.getElementById(id);
+
+    var MIME_TYPE = "image/png";
+
+    var imgURL = canvasElement.toDataURL(MIME_TYPE);
+
+    var dlLink = document.createElement('a');
+    dlLink.download = fileName;
+    dlLink.href = imgURL;
+    dlLink.dataset.downloadurl = [MIME_TYPE, dlLink.download, dlLink.href].join(':');
+
+    document.body.appendChild(dlLink);
+    dlLink.click();
+    document.body.removeChild(dlLink);
+}
+
+let btn = $("<input type='button' value='保存' id='abc123' style='background-color:red;position:absolute; left:0;top:0;z-index:100000;'>");
+$("body").append(btn);
+$('#abc123').click(()=> {
+	console.log("保存")
+	$.each($(".creader-canvas"), function(i, item){
+		console.log(item.id)
+		 exportCanvasAsPNG(item.id, (page++) +".png");
+	});
+})
+
 
 
 //模拟向下滚动，加载剩余的文档内容
